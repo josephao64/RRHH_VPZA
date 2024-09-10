@@ -1,0 +1,311 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+h1, h2, h3, h4 {
+    text-align: center;
+    color: #333;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Botón de volver al menú */
+.btn-menu {
+    display: inline-block;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.btn-menu:hover {
+    background-color: #0056b3;
+}
+
+/* Botón de agregar (usado para empleados y sucursales) */
+.btn-add {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 12px 25px;
+    font-size: 16px;
+    background-color: #28A745;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-add:hover {
+    background-color: #218838;
+}
+
+/* Estilos para las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+table th, table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+/* Botones de edición y eliminación */
+button.edit, button.delete {
+    padding: 5px 10px;
+    margin: 0 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+button.edit {
+    background-color: #2196F3;
+    color: white;
+}
+
+button.delete {
+    background-color: #f44336;
+    color: white;
+}
+
+button.edit:hover {
+    background-color: #1976D2;
+}
+
+button.delete:hover {
+    background-color: #d32f2f;
+}
+
+/* Sección de detalles del empleado */
+#detallesEmpleado {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+#detallesEmpleado h3, #detallesEmpleado h4 {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+#detallesEmpleado p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+}
+
+/* Botones de acción */
+.btn-action {
+    background-color: #FF8C00;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.btn-close {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-action:hover {
+    background-color: #e67e22;
+}
+
+.btn-close:hover {
+    background-color: #c82333;
+}
+
+/* Estilos de ventana modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh; /* Altura máxima para permitir scroll */
+    border-radius: 10px;
+    text-align: left;
+    
+    /* Centrando el modal */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Permitir scroll si el contenido excede la altura */
+    overflow-y: auto;
+}
+
+/* Botón de cerrar dentro del modal */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Formulario */
+form {
+    text-align: left;
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Contenedor de cada campo del formulario */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    width: 45%; /* Dos campos por fila */
+}
+
+/* Etiquetas de los campos */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Inputs y select */
+input[type="text"], input[type="date"], input[type="number"], input[type="email"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Botones dentro del formulario */
+button[type="button"], button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+button[type="button"]:hover, button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Sección IGSS y Vacaciones dentro de Detalles */
+#detallesIGSS, #detallesVacaciones {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 10px;
+    position: relative;
+}
+
+#detallesIGSS {
+    border: 2px solid green;
+    background-color: #e8f5e9;
+}
+
+#detallesVacaciones {
+    border: 2px solid blue;
+    background-color: #e3f2fd;
+}
+
+#detallesIGSS h4, #detallesVacaciones h4 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#detallesIGSS p, #detallesVacaciones p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* Botón de suspensión dentro del cuadro de IGSS */
+#btnSuspensionIGSS {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+/* Botón de programar vacaciones dentro del cuadro de vacaciones */
+#btnProgramarVacaciones {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+/* Estilo para los datos de suspensión y pago de vacaciones */
+#detallesSuspension, #detallesPagosVacaciones {
+    text-align: right;
+    color: #333;
+    font-style: italic;
+}

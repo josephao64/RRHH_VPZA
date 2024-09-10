@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Empleados</title>
+  <!-- Integrar Font Awesome para los íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Botón para regresar al menú -->
+  <a href="index.html" class="btn-menu"><i class="fas fa-home"></i> Ir al Menú</a>
+
+  <h2>Gestión de Empleados</h2>
+
+  <!-- Menú desplegable para seleccionar sucursales -->
+  <label for="sucursalFiltro">Filtrar por Sucursal:</label>
+  <select id="sucursalFiltro">
+    <option value="">Seleccionar Sucursal</option>
+  </select>
+
+  <!-- Título dinámico de la sucursal seleccionada -->
+  <h3 id="tituloSucursal">Seleccione una Sucursal</h3>
+
+  <!-- Botón para agregar empleado -->
+  <button id="btnAgregarEmpleado" class="btn-add"><i class="fas fa-user-plus"></i> Agregar Empleado</button>
+
+  <!-- Lista de Empleados -->
+  <div id="listaEmpleados">
+    <h3>Lista de Empleados</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Puesto</th>
+          <th>Sucursal</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="empleadosTabla">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Sección de Detalles del Empleado -->
+  <div id="detallesEmpleado" style="display:none;">
+    <h3>Detalles del Empleado</h3>
+    <p id="detallesNombre">Nombre: </p>
+    <p id="detallesTelefono">Teléfono: </p>
+    <p id="detallesPuesto">Puesto: </p>
+    <p id="detallesSucursal">Sucursal: </p>
+    <p id="detallesTiempoTrabajado">Tiempo Trabajado: </p>
+    <p id="detallesAptoVacaciones">Apto para Vacaciones: </p>
+    <p id="detallesDeuda">Deuda: Sin deudas</p>
+
+    <!-- Cuadro IGSS -->
+    <div id="detallesIGSS" style="border: 2px solid green; padding: 10px; margin-top: 15px; position: relative;">
+      <h4>IGSS</h4>
+      <p id="detallesIGSSEstado">Estado: </p>
+      <p id="detallesIGSSFechaInscrito">Fecha de Inscripción: </p>
+      <p id="detallesIGSSNumeroAfiliacion">Número de Afiliación: </p>
+
+      <!-- Botón de Suspensión IGSS dentro del cuadro verde -->
+      <button id="btnSuspensionIGSS" class="btn-action" style="position: absolute; right: 10px; top: 10px;">Suspensión IGSS</button>
+
+      <!-- Información de Suspensión -->
+      <p id="detallesSuspension" style="text-align: right;">Suspensión: Sin suspensión</p>
+
+      <button id="btnActualizarIGSS" style="display:none;">Actualizar IGSS</button>
+    </div>
+
+    <!-- Cuadro Vacaciones -->
+    <div id="detallesVacaciones" style="border: 2px solid blue; padding: 10px; margin-top: 15px; position: relative;">
+      <h4>Vacaciones</h4>
+      <p id="detallesDiasTrabajados">Días Laborados: </p>
+      <p id="detallesVacacionesEstado">Estado: </p>
+      <p id="proximoApto">Próximo Apto para Vacaciones: </p>
+
+      <!-- Botón para programar vacaciones dentro del cuadro de vacaciones -->
+      <button id="btnProgramarVacaciones" class="btn-action" style="position: absolute; right: 10px; top: 10px;">Programar Vacaciones</button>
+
+      <!-- Información de Pagos de Vacaciones -->
+      <p id="detallesPagosVacaciones" style="text-align: right;">Total a Pagar: N/A</p>
+      <p id="detallesFechasVacaciones" style="text-align: right;">Vacaciones Programadas: No</p>
+    </div>
+
+    <button id="btnAdelantoSueldo" class="btn-action">Adelanto de Sueldo</button>
+    <button id="cerrarDetalles" class="btn-close">Cerrar Detalles</button>
+  </div>
+
+  <!-- Modal para Programar Vacaciones -->
+  <div id="modalVacaciones" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeVacaciones">&times;</span>
+      <h4>Programar Vacaciones</h4>
+      <button id="btnGozarVacaciones">Gozar Vacaciones</button>
+      <button id="btnPagarVacaciones">Pagar Vacaciones</button>
+      
+      <!-- Formulario para Gozar Vacaciones -->
+      <form id="formGozarVacaciones" style="display:none;">
+        <label>Fecha de Inicio:</label>
+        <input type="date" id="fechaInicioVacaciones" required><br>
+
+        <label>Fecha de Fin:</label>
+        <input type="text" id="fechaFinVacaciones" readonly><br>
+        <button type="submit">Programar Vacaciones</button>
+      </form>
+
+      <!-- Formulario para Pagar Vacaciones -->
+      <form id="formPagarVacaciones" style="display:none;">
+        <label>Número de Pagos:</label>
+        <input type="number" id="numeroPagosVacaciones" required><br>
+
+        <label>Fecha de Pago:</label>
+        <input type="date" id="fechaPagoVacaciones" required><br>
+
+        <label>Total a Pagar:</label>
+        <input type="number" id="totalPagarVacaciones" required><br>
+        <button type="submit">Pagar Vacaciones</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para actualizar IGSS -->
+  <div id="modalActualizarIGSS" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeActualizarIGSS">&times;</span>
+      <h4>Actualizar IGSS</h4>
+      <form id="formActualizarIGSS">
+        <label>¿Está inscrito en el IGSS?</label>
+        <select id="igssEstadoActualizado" required>
+          <option value="No">No</option>
+          <option value="Sí">Sí</option>
+        </select><br>
+
+        <label>Fecha de Inscripción IGSS:</label>
+        <input type="date" id="igssFechaInscritoActualizado"><br>
+
+        <label>Número de Afiliación IGSS:</label>
+        <input type="text" id="igssNumeroAfiliacionActualizado"><br>
+
+        <button type="submit">Guardar Cambios</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para Suspensión IGSS -->
+  <div id="modalSuspension" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeSuspension">&times;</span>
+      <h4>Suspensión IGSS</h4>
+      <form id="formSuspensionIGSS">
+        <label>Fecha de Inicio:</label>
+        <input type="date" id="fechaInicioSuspension"><br>
+        <label>Fecha de Fin:</label>
+        <input type="date" id="fechaFinSuspension"><br>
+        <label>Número de Constancia:</label>
+        <input type="text" id="numeroConstanciaSuspension"><br>
+        <button type="submit">Guardar Suspensión</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para Adelanto de Sueldo -->
+  <div id="modalAdelanto" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeAdelanto">&times;</span>
+      <h4>Adelanto de Sueldo</h4>
+      <form id="formAdelantoSueldo">
+        <label>Fecha del Adelanto:</label>
+        <input type="date" id="fechaAdelanto"><br>
+        <label>Monto Dado:</label>
+        <input type="number" id="montoAdelanto"><br>
+        <button type="submit">Guardar Adelanto</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para Agregar Empleado -->
+  <div id="modalEmpleado" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeEmpleado">&times;</span>
+      <h4>Agregar Empleado</h4>
+      <form id="nuevoEmpleadoForm">
+        <label>Nombre:</label>
+        <input type="text" id="nombreEmpleado" required><br>
+
+        <label>Apellido:</label>
+        <input type="text" id="apellidoEmpleado" required><br>
+
+        <label>Fecha de Nacimiento:</label>
+        <input type="date" id="fechaNacimientoEmpleado" required><br>
+
+        <label>DPI:</label>
+        <input type="text" id="dpiEmpleado" required><br>
+
+        <label>Fecha de Inicio de Labores:</label>
+        <input type="date" id="fechaInicioLabores" required><br>
+
+        <label>Teléfono:</label>
+        <input type="text" id="telefonoEmpleado" required><br>
+
+        <label>Puesto:</label>
+        <input type="text" id="puestoEmpleado" required><br>
+
+        <label>Salario:</label>
+        <input type="number" id="salarioEmpleado" required><br>
+
+        <label>Sucursal:</label>
+        <select id="sucursalEmpleado" required>
+          <option value="">Seleccionar Sucursal</option>
+        </select><br>
+
+        <!-- Datos del IGSS -->
+        <h4>IGSS</h4>
+        <label>¿Está inscrito en el IGSS?</label>
+        <select id="igssEstado" required>
+          <option value="No">No</option>
+          <option value="Sí">Sí</option>
+        </select><br>
+
+        <label>Fecha de Inscripción IGSS:</label>
+        <input type="date" id="igssFechaInscrito"><br>
+
+        <label>Número de Afiliación IGSS:</label>
+        <input type="text" id="igssNumeroAfiliacion"><br>
+
+        <button type="submit" id="guardarEmpleado">Guardar Empleado</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/empleados.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!-- Archivo: /public/configuracion.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Sucursales</title>
+  <!-- Integrar Font Awesome para los íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Botón para regresar al menú -->
+  <a href="index.html" class="btn-menu"><i class="fas fa-home"></i> Ir al Menú</a>
+
+  <h2>Gestión de Sucursales</h2>
+  <!-- Botón para agregar sucursal -->
+  <button id="btnAgregarSucursal" class="btn-add"><i class="fas fa-building"></i> Agregar Sucursal</button>
+
+  <!-- Lista de Sucursales -->
+  <div id="listaSucursales">
+    <h3>Lista de Sucursales</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="sucursalesTabla">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Ventana Modal para Agregar/Editar Sucursal -->
+  <div id="modalSucursal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeSucursal">&times;</span>
+      <h3>Formulario de Sucursal</h3>
+      <form id="nuevoSucursalForm">
+        <input type="hidden" id="sucursalId">
+        <input type="text" id="nombreSucursal" placeholder="Nombre de la Sucursal" required><br>
+        <input type="text" id="direccion" placeholder="Dirección" required><br>
+        <input type="tel" id="telefono" placeholder="Teléfono de Contacto" required><br>
+        <button type="submit"><i class="fas fa-save"></i> Guardar Sucursal</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/configuracion.js"></script>
+</body>
+</html>
