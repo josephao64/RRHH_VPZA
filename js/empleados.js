@@ -7,28 +7,89 @@ window.onload = () => {
     listarEmpleados();
 };
 
-// Inicializar el modal de agregar empleado
+// Inicializar el modal de agregar empleado y el de estado del empleado
 document.addEventListener('DOMContentLoaded', () => {
-    // Esperar a que el DOM esté completamente cargado para asignar el listener
     const btnAgregarEmpleado = document.getElementById('btnAgregarEmpleado');
     const modalEmpleado = document.getElementById('modalEmpleado');
     const closeEmpleado = document.getElementById('closeEmpleado');
     
     if (btnAgregarEmpleado && modalEmpleado) {
-        // Abrir el modal cuando se haga clic en el botón "Agregar Empleado"
         btnAgregarEmpleado.addEventListener('click', () => {
             modalEmpleado.style.display = 'block';
             document.getElementById('nuevoEmpleadoForm').reset();
-            cargarSucursales(); // Cargar sucursales al abrir el modal
+            cargarSucursales();
         });
     }
 
-    // Cerrar el modal cuando se haga clic en el botón de cerrar
     if (closeEmpleado && modalEmpleado) {
         closeEmpleado.addEventListener('click', () => {
             modalEmpleado.style.display = 'none';
         });
     }
+
+    // Lógica para cerrar el modal de suspensión IGSS con la "X"
+    const closeSuspension = document.getElementById('closeSuspension');
+    const modalSuspension = document.getElementById('modalSuspension');
+
+    if (closeSuspension && modalSuspension) {
+        closeSuspension.addEventListener('click', () => {
+            modalSuspension.style.display = 'none';
+        });
+    }
+
+    // Lógica para modificar estado del empleado
+    const btnEstadoEmpleado = document.getElementById('btnEstadoEmpleado');
+    const modalEstadoEmpleado = document.getElementById('modalEstadoEmpleado');
+    const closeEstadoEmpleado = document.getElementById('closeEstadoEmpleado');
+    const formEstadoEmpleado = document.getElementById('formEstadoEmpleado');
+    let estadoSeleccionado = ''; // Almacenar si es "Despedido" o "Renuncia"
+
+    if (btnEstadoEmpleado && modalEstadoEmpleado) {
+        btnEstadoEmpleado.addEventListener('click', () => {
+            modalEstadoEmpleado.style.display = 'block';
+        });
+    }
+
+    if (closeEstadoEmpleado && modalEstadoEmpleado) {
+        closeEstadoEmpleado.addEventListener('click', () => {
+            modalEstadoEmpleado.style.display = 'none';
+            formEstadoEmpleado.style.display = 'none'; // Ocultar formulario cuando se cierra el modal
+        });
+    }
+
+    const btnDespedido = document.getElementById('btnDespedido');
+    const btnRenuncia = document.getElementById('btnRenuncia');
+    if (btnDespedido && btnRenuncia) {
+        btnDespedido.addEventListener('click', () => {
+            estadoSeleccionado = 'Despedido';
+            formEstadoEmpleado.style.display = 'block'; // Mostrar el formulario para la fecha
+        });
+
+        btnRenuncia.addEventListener('click', () => {
+            estadoSeleccionado = 'Renuncia';
+            formEstadoEmpleado.style.display = 'block'; // Mostrar el formulario para la fecha
+        });
+    }
+
+    formEstadoEmpleado.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fechaEstado = document.getElementById('fechaEstadoEmpleado').value;
+
+        if (estadoSeleccionado) {
+            const empleadoId = formEstadoEmpleado.getAttribute('data-empleado-id');
+            
+            // Actualizar el estado del empleado en Firestore
+            await updateDoc(doc(db, "empleados", empleadoId), {
+                estado: estadoSeleccionado,
+                fechaEstado: fechaEstado
+            });
+
+            alert(`Estado del empleado actualizado a ${estadoSeleccionado}`);
+            modalEstadoEmpleado.style.display = 'none'; // Cerrar modal
+            formEstadoEmpleado.style.display = 'none'; // Ocultar formulario
+            verDetalles(empleadoId); // Refrescar detalles del empleado
+        }
+    });
 });
 
 // Cargar las sucursales en el select dentro del formulario de agregar empleado
@@ -53,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         nuevoEmpleadoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Capturar los datos del formulario
             const nombre = document.getElementById('nombreEmpleado').value;
             const apellido = document.getElementById('apellidoEmpleado').value;
             const fechaNacimiento = document.getElementById('fechaNacimientoEmpleado').value;
@@ -64,16 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const salario = document.getElementById('salarioEmpleado').value;
             const sucursal = document.getElementById('sucursalEmpleado').value;
 
-            // Obtener el nombre de la sucursal seleccionada
             const sucursalDoc = await getDoc(doc(db, "sucursales", sucursal));
             const sucursalNombre = sucursalDoc.data().nombre;
 
-            // Capturar datos del IGSS
             const igssEstado = document.getElementById('igssEstado').value;
             const igssFechaInscrito = document.getElementById('igssFechaInscrito').value || null;
             const igssNumeroAfiliacion = document.getElementById('igssNumeroAfiliacion').value || null;
 
-            // Guardar el empleado en Firestore
             await addDoc(collection(db, "empleados"), {
                 nombre: nombre,
                 apellido: apellido,
@@ -179,7 +236,7 @@ window.verDetalles = async function(id) {
         });
 
         // Asignar funcionalidad a botón de actualizar IGSS
-        document.getElementById('btnActualizarIGSS').addEventListener('click', () => {
+        document.getElementById('btnEstadoIGSS').addEventListener('click', () => {
             abrirModalActualizarIGSS(id);
         });
 
@@ -190,6 +247,10 @@ window.verDetalles = async function(id) {
 
         document.getElementById('btnAdelantoSueldo').addEventListener('click', () => {
             abrirModalAdelanto(id); // Abrir modal de adelanto con el ID del empleado
+        });
+
+        document.getElementById('btnEstadoEmpleado').addEventListener('click', () => {
+            abrirModalEstadoEmpleado(id); // Abrir modal de estado del empleado
         });
 
         // Cerrar ventana de detalles
@@ -329,6 +390,14 @@ function abrirModalAdelanto(idEmpleado) {
     document.getElementById('closeAdelanto').addEventListener('click', () => {
         document.getElementById('modalAdelanto').style.display = 'none';
     });
+}
+
+// Función para abrir el modal de estado del empleado
+function abrirModalEstadoEmpleado(idEmpleado) {
+    const modalEstadoEmpleado = document.getElementById('modalEstadoEmpleado');
+    const formEstadoEmpleado = document.getElementById('formEstadoEmpleado');
+    formEstadoEmpleado.setAttribute('data-empleado-id', idEmpleado); // Pasar el ID del empleado al formulario
+    modalEstadoEmpleado.style.display = 'block';
 }
 
 // Función para calcular el tiempo trabajado en años, meses y días

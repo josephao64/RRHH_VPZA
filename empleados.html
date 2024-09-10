@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Empleados</title>
-  <!-- Integrar Font Awesome para los íconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -55,20 +54,25 @@
     <p id="detallesAptoVacaciones">Apto para Vacaciones: </p>
     <p id="detallesDeuda">Deuda: Sin deudas</p>
 
+    <!-- Botón de Estado de Empleado -->
+    <button id="btnEstadoEmpleado" class="btn-action">Modificar Estado del Empleado</button>
+
     <!-- Cuadro IGSS -->
     <div id="detallesIGSS" style="border: 2px solid green; padding: 10px; margin-top: 15px; position: relative;">
       <h4>IGSS</h4>
-      <p id="detallesIGSSEstado">Estado: </p>
+      <p id="detallesIGSSEstado">Inscrito en IGSS: </p>
       <p id="detallesIGSSFechaInscrito">Fecha de Inscripción: </p>
       <p id="detallesIGSSNumeroAfiliacion">Número de Afiliación: </p>
+      <p id="detallesIGSSSuspension">Estado de Suspensión: </p>
 
-      <!-- Botón de Suspensión IGSS dentro del cuadro verde -->
-      <button id="btnSuspensionIGSS" class="btn-action" style="position: absolute; right: 10px; top: 10px;">Suspensión IGSS</button>
+      <!-- Botón para Modificar Estado IGSS dentro del cuadro verde -->
+      <button id="btnEstadoIGSS" class="btn-action" style="margin-top: 10px;">Modificar Estado IGSS</button>
+
+      <!-- Botón para Suspender IGSS dentro del cuadro verde -->
+      <button id="btnSuspensionIGSS" class="btn-action" style="position: absolute; right: 10px; bottom: 10px;">Suspensión IGSS</button>
 
       <!-- Información de Suspensión -->
       <p id="detallesSuspension" style="text-align: right;">Suspensión: Sin suspensión</p>
-
-      <button id="btnActualizarIGSS" style="display:none;">Actualizar IGSS</button>
     </div>
 
     <!-- Cuadro Vacaciones -->
@@ -228,6 +232,24 @@
         <input type="text" id="igssNumeroAfiliacion"><br>
 
         <button type="submit" id="guardarEmpleado">Guardar Empleado</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para modificar estado del empleado -->
+  <div id="modalEstadoEmpleado" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeEstadoEmpleado">&times;</span>
+      <h4>Modificar Estado del Empleado</h4>
+      <p>Seleccione el estado del empleado:</p>
+      <button id="btnDespedido" class="btn-action">Despedido</button>
+      <button id="btnRenuncia" class="btn-action">Renuncia</button>
+
+      <!-- Formulario para ingresar la fecha de despido o renuncia -->
+      <form id="formEstadoEmpleado" style="display:none; margin-top: 10px;">
+        <label>Fecha de Despido/Renuncia:</label>
+        <input type="date" id="fechaEstadoEmpleado" required><br>
+        <button type="submit">Guardar Estado</button>
       </form>
     </div>
   </div>
